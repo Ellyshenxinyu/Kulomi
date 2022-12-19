@@ -1,0 +1,12 @@
+FROM golang:1.16.2 AS builder
+WORKDIR /httpServer
+COPY . .
+RUN go build -o httpServer main.go
+
+FROM ubuntu
+COPY --from=builder /httpServer/httpServer /httpServer/httpServer
+EXPOSE 8080
+WORKDIR /httpServer
+ENTRYPOINT ["./httpServer"]
+
+
